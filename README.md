@@ -100,8 +100,6 @@ Shadow report from `scripts/replay.py` on the 10 bundled sample cases with the *
 
 The two misses are useful: one note gives the effective date in words ("January 15th next year") and one uses a different sentence pattern ("Spoke with Tom Hale, acct ..."). That is exactly the kind of gap shadow mode is meant to surface before cutover.
 
-> Replace this table with your own numbers after running with an LLM extractor.
-
 ## Project layout
 
 ```
