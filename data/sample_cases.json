@@ -1,0 +1,212 @@
+[
+  {
+    "id": "case-1",
+    "note": "Caller asked to update account ACC-10023 for Maria Lopez (DOB 1984-03-12). Moved, new address 45 Pine St, Albany, NY 12207. Phone 518-555-0142, email maria.lopez@example.com. Prefers email only, language Spanish. Address change effective 2026-12-01. Note: Moved within county",
+    "staff_form": {
+      "account_id": "ACC-10023",
+      "first_name": "Maria",
+      "last_name": "Lopez",
+      "date_of_birth": "1984-03-12",
+      "phone": "518-555-0142",
+      "email": "maria.lopez@example.com",
+      "street": "45 Pine St",
+      "city": "Albany",
+      "state": "NY",
+      "zip": "12207",
+      "mail_preference": "email",
+      "preferred_language": "Spanish",
+      "request_type": "address_change",
+      "effective_date": "2026-12-01",
+      "notes": "Moved within county"
+    }
+  },
+  {
+    "id": "case-2",
+    "note": "Caller asked to update account ACC-10457 for James Carter (DOB 1979-11-02). Moved, new address 12 River Rd, Troy, NY 12180. Phone 518-555-0199, email jcarter@example.com. Wants paper mail, language English. Address change effective 2026-12-15. Note: Requested paper notices",
+    "staff_form": {
+      "account_id": "ACC-10457",
+      "first_name": "James",
+      "last_name": "Carter",
+      "date_of_birth": "1979-11-02",
+      "phone": "518-555-0199",
+      "email": "jcarter@example.com",
+      "street": "12 River Rd",
+      "city": "Troy",
+      "state": "NY",
+      "zip": "12180",
+      "mail_preference": "paper",
+      "preferred_language": "English",
+      "request_type": "address_change",
+      "effective_date": "2026-12-15",
+      "notes": "Requested paper notices"
+    }
+  },
+  {
+    "id": "case-3",
+    "note": "Caller asked to update account ACC-20811 for Aisha Khan (DOB 1991-06-21). Moved, new address 800 Elm Ave, Austin, TX 78701. Phone 737-555-0110, email aisha.khan@example.com. Prefers email only, language English. Address change effective 2027-01-01. Note: Relocated for work",
+    "staff_form": {
+      "account_id": "ACC-20811",
+      "first_name": "Aisha",
+      "last_name": "Khan",
+      "date_of_birth": "1991-06-21",
+      "phone": "737-555-0110",
+      "email": "aisha.khan@example.com",
+      "street": "800 Elm Ave",
+      "city": "Austin",
+      "state": "TX",
+      "zip": "78701",
+      "mail_preference": "email",
+      "preferred_language": "English",
+      "request_type": "address_change",
+      "effective_date": "2027-01-01",
+      "notes": "Relocated for work"
+    }
+  },
+  {
+    "id": "case-4",
+    "note": "Caller asked to update account ACC-31102 for Robert Nguyen (DOB 1966-09-30). Moved, new address 9 Oak Ct, Wichita, Kansas 67202. Phone 316-555-0177, email rnguyen@example.com. Wants paper mail, language Vietnamese. Address change effective 2026-11-30. Note: Son assisting with update",
+    "staff_form": {
+      "account_id": "ACC-31102",
+      "first_name": "Robert",
+      "last_name": "Nguyen",
+      "date_of_birth": "1966-09-30",
+      "phone": "316-555-0177",
+      "email": "rnguyen@example.com",
+      "street": "9 Oak Ct",
+      "city": "Wichita",
+      "state": "KS",
+      "zip": "67202",
+      "mail_preference": "paper",
+      "preferred_language": "Vietnamese",
+      "request_type": "address_change",
+      "effective_date": "2026-11-30",
+      "notes": "Son assisting with update"
+    }
+  },
+  {
+    "id": "case-5",
+    "note": "Caller asked to update account ACC-40990 for Priya Shah (DOB 1988-01-14). Moved, new address 221 Lake Shore Dr, Chicago, IL 60611. Phone 312-555-0133, email priya.shah@example.com. Prefers email only, language English. Address change effective 2026-12-05. Note: Verified by phone callback",
+    "staff_form": {
+      "account_id": "ACC-40990",
+      "first_name": "Priya",
+      "last_name": "Shah",
+      "date_of_birth": "1988-01-14",
+      "phone": "312-555-0133",
+      "email": "priya.shah@example.com",
+      "street": "221 Lake Shore Dr",
+      "city": "Chicago",
+      "state": "IL",
+      "zip": "60611",
+      "mail_preference": "email",
+      "preferred_language": "English",
+      "request_type": "address_change",
+      "effective_date": "2026-12-05",
+      "notes": "Verified by phone callback"
+    }
+  },
+  {
+    "id": "case-6",
+    "note": "Caller asked to update account ACC-51234 for Daniel O'Brien (DOB 1972-04-08). Moved, new address 3 Maple Ln, Schenectady, NY 12305. Phone 518-555-0160, email dobrien@example.com. Prefers email only, language English. Address change effective 2026-12-10. Note: Apartment number pending",
+    "staff_form": {
+      "account_id": "ACC-51234",
+      "first_name": "Daniel",
+      "last_name": "O'Brien",
+      "date_of_birth": "1972-04-08",
+      "phone": "518-555-0160",
+      "email": "dobrien@example.com",
+      "street": "3 Maple Ln",
+      "city": "Schenectady",
+      "state": "NY",
+      "zip": "12305",
+      "mail_preference": "email",
+      "preferred_language": "English",
+      "request_type": "address_change",
+      "effective_date": "2026-12-10",
+      "notes": "Apartment number pending"
+    }
+  },
+  {
+    "id": "case-7",
+    "note": "Caller asked to update account ACC-62001 for Lucia Fernandez (DOB 1995-12-25). Moved, new address 77 Mission Blvd, San Antonio, TX 78205. Phone 210-555-0105, email lucia.f@example.com. Prefers email only, language Spanish. Address change effective January 15th next year. Note: New lease signed",
+    "staff_form": {
+      "account_id": "ACC-62001",
+      "first_name": "Lucia",
+      "last_name": "Fernandez",
+      "date_of_birth": "1995-12-25",
+      "phone": "210-555-0105",
+      "email": "lucia.f@example.com",
+      "street": "77 Mission Blvd",
+      "city": "San Antonio",
+      "state": "TX",
+      "zip": "78205",
+      "mail_preference": "email",
+      "preferred_language": "Spanish",
+      "request_type": "address_change",
+      "effective_date": "2027-01-15",
+      "notes": "New lease signed"
+    }
+  },
+  {
+    "id": "case-8",
+    "note": "Caller asked to update account ACC-70555 for Kevin Brooks (DOB 1983-07-19). Moved, new address 140 State St, Albany, NY 12207. Phone 518-555-0188, email kbrooks@example.com. Wants paper mail, language English. Address change effective 2026-12-20. Note: Prefers mailed copies",
+    "staff_form": {
+      "account_id": "ACC-70555",
+      "first_name": "Kevin",
+      "last_name": "Brooks",
+      "date_of_birth": "1983-07-19",
+      "phone": "518-555-0188",
+      "email": "kbrooks@example.com",
+      "street": "140 State St",
+      "city": "Albany",
+      "state": "NY",
+      "zip": "12207",
+      "mail_preference": "paper",
+      "preferred_language": "English",
+      "request_type": "address_change",
+      "effective_date": "2026-12-20",
+      "notes": "Prefers mailed copies"
+    }
+  },
+  {
+    "id": "case-9",
+    "note": "Spoke with Tom Hale, acct ACC-88120, dob 1990-02-11. He moved to 5 Birch Way, Albany, NY 12203 effective 2026-12-01. Cell (518) 555-0123, tom.hale@example.com, email is fine. Note: Called from new number",
+    "staff_form": {
+      "account_id": "ACC-88120",
+      "first_name": "Tom",
+      "last_name": "Hale",
+      "date_of_birth": "1990-02-11",
+      "phone": "518-555-0123",
+      "email": "tom.hale@example.com",
+      "street": "5 Birch Way",
+      "city": "Albany",
+      "state": "NY",
+      "zip": "12203",
+      "mail_preference": "email",
+      "preferred_language": "English",
+      "request_type": "address_change",
+      "effective_date": "2026-12-01",
+      "notes": "Called from new number"
+    }
+  },
+  {
+    "id": "case-10",
+    "note": "Walk-in: update account ACC-90311 for Grace Lee (DOB 1958-05-30). Moved, new address 60 Hudson Ave, Albany, New York 12210. Phone 518.555.0170, email grace.lee@example.com. Wants paper mail, language Korean. Address change effective 2026-12-03. Note: Daughter translated",
+    "staff_form": {
+      "account_id": "ACC-90311",
+      "first_name": "Grace",
+      "last_name": "Lee",
+      "date_of_birth": "1958-05-30",
+      "phone": "518-555-0170",
+      "email": "grace.lee@example.com",
+      "street": "60 Hudson Ave",
+      "city": "Albany",
+      "state": "NY",
+      "zip": "12210",
+      "mail_preference": "paper",
+      "preferred_language": "Korean",
+      "request_type": "address_change",
+      "effective_date": "2026-12-03",
+      "notes": "Daughter translated"
+    }
+  }
+]
