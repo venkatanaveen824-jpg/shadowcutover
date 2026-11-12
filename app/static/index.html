@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ShadowCutover: AI agent shadow mode for legacy systems</title>
+<style>
+  :root { --bg:#f6f7f9; --card:#fff; --ink:#1d2330; --mute:#667085; --line:#e3e6eb; --ok:#127a3e; --bad:#b42318; --warn:#b54708; --accent:#2f5bea; }
+  * { box-sizing:border-box; }
+  body { margin:0; font:14px/1.45 system-ui, -apple-system, Segoe UI, Roboto, sans-serif; background:var(--bg); color:var(--ink); }
+  header { padding:14px 22px; background:#121826; color:#fff; display:flex; gap:16px; align-items:center; flex-wrap:wrap; }
+  header h1 { font-size:17px; margin:0; } header span { color:#aab3c5; font-size:13px; }
+  .bar { display:flex; gap:8px; align-items:center; margin-left:auto; flex-wrap:wrap; }
+  button { border:1px solid var(--line); background:#fff; color:var(--ink); padding:7px 12px; border-radius:6px; cursor:pointer; font:inherit; }
+  button.primary { background:var(--accent); color:#fff; border-color:var(--accent); }
+  button.danger { background:#fff1f0; color:var(--bad); border-color:#f3c5c0; }
+  button.on { background:#121826; color:#fff; }
+  header button { background:#1f2738; color:#dfe5f1; border-color:#2e3850; }
+  header button.on { background:#2f5bea; border-color:#2f5bea; color:#fff; }
+  header button.danger.on { background:var(--bad); border-color:var(--bad); color:#fff; }
+  main { padding:16px 22px; display:grid; gap:16px; }
+  .metrics { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:10px; }
+  .m { background:var(--card); border:1px solid var(--line); border-radius:8px; padding:10px 12px; }
+  .m b { display:block; font-size:20px; } .m small { color:var(--mute); }
+  .split { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  @media (max-width:900px){ .split { grid-template-columns:1fr; } }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:8px; padding:14px; }
+  .card h2 { font-size:14px; margin:0 0 10px; display:flex; justify-content:space-between; align-items:center; }
+  .legacy { font-family: ui-monospace, Menlo, Consolas, monospace; background:#0f1a12; color:#7dff9b; }
+  .legacy h2 { color:#b6ffc6; }
+  .grid { display:grid; grid-template-columns:repeat(3,1fr); gap:6px 10px; }
+  .grid label { font-size:11px; text-transform:uppercase; color:#7fbf8c; }
+  .grid input { width:100%; background:#0b130d; color:#9dffb2; border:1px solid #24402b; padding:4px 6px; font:12px ui-monospace,monospace; }
+  textarea { width:100%; min-height:150px; padding:10px; border:1px solid var(--line); border-radius:6px; font:inherit; }
+  select { padding:6px; border-radius:6px; border:1px solid var(--line); }
+  table { width:100%; border-collapse:collapse; font-size:13px; }
+  th, td { text-align:left; padding:6px 8px; border-bottom:1px solid var(--line); vertical-align:top; }
+  th { color:var(--mute); font-weight:600; font-size:12px; }
+  .ok { color:var(--ok); } .bad { color:var(--bad); } .warn { color:var(--warn); }
+  .pill { display:inline-block; padding:2px 8px; border-radius:99px; font-size:12px; background:#eef2ff; color:#3538cd; }
+  .gate { padding:10px 12px; border-radius:8px; font-size:13px; }
+  .gate.no { background:#fff6ed; border:1px solid #f9dbaf; color:#93370d; }
+  .gate.yes { background:#ecfdf3; border:1px solid #abefc6; color:#05603a; }
+  .row { display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin-top:10px; }
+  #toast { position:fixed; right:18px; bottom:18px; background:#121826; color:#fff; padding:10px 14px; border-radius:8px; display:none; max-width:420px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>ShadowCutover</h1><span>AI agent in shadow mode next to a legacy SOAP system of record</span>
+  <div class="bar">
+    <span>Mode:</span>
+    <button data-mode="shadow">Shadow</button>
+    <button data-mode="canary">Canary</button>
+    <button data-mode="live">Live</button>
+    <button id="chaos" class="danger">Chaos: legacy up</button>
+    <button id="reset">Reset</button>
+  </div>
+</header>
+<main>
+  <section class="metrics" id="metrics"></section>
+  <div id="gate" class="gate no"></div>
+
+  <section class="split">
+    <div class="card legacy">
+      <h2>LEGACY SYSTEM: ACCOUNT UPDATE FORM (15 FIELDS) <span id="legacyMs"></span></h2>
+      <div class="grid" id="form"></div>
+    </div>
+    <div class="card">
+      <h2>AI agent: one case note <select id="sample"></select></h2>
+      <textarea id="note"></textarea>
+      <div class="row">
+        <button class="primary" id="submit">Submit request</button>
+        <button id="replay">Replay all samples</button>
+        <span id="served" class="pill"></span>
+      </div>
+      <div id="result" style="margin-top:12px"></div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Flight recorder: recent runs</h2>
+    <table><thead><tr><th>Route</th><th>Legacy</th><th>Legacy ms</th><th>Agent ms</th><th>Field match</th><th>Mismatched fields</th><th>Correlation ID</th></tr></thead>
+    <tbody id="runs"></tbody></table>
+  </section>
+</main>
+<div id="toast"></div>
+<script>
+const FIELDS = ["account_id","first_name","last_name","date_of_birth","phone","email","street","city","state","zip","mail_preference","preferred_language","request_type","effective_date","notes"];
+let samples = [];
+const $ = s => document.querySelector(s);
+const toast = (m) => { const t=$("#toast"); t.textContent=m; t.style.display="block"; setTimeout(()=>t.style.display="none", 4000); };
+
+$("#form").innerHTML = FIELDS.map(f => `<div><label>${f.replace(/_/g," ")}</label><input id="f_${f}"></div>`).join("");
+
+function loadSample(i){ const s=samples[i]; $("#note").value=s.note; FIELDS.forEach(f=>$("#f_"+f).value=s.staff_form[f]||""); }
+function staffForm(){ const o={}; FIELDS.forEach(f=>o[f]=$("#f_"+f).value); return o; }
+
+async function api(path, body){
+  const r = await fetch(path, body ? {method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify(body)} : {});
+  const j = await r.json(); if(!r.ok) throw new Error(j.detail || r.statusText); return j;
+}
+
+async function submitOne(note, form){
+  const r = await api("/api/submit", {note, staff_form: form});
+  return r;
+}
+
+function showResult(r){
+  $("#legacyMs").textContent = r.legacy_ms ? `${r.legacy_ms} ms` : "";
+  $("#served").textContent = `route: ${r.route} · served by: ${r.served_by} · legacy: ${r.legacy_status}${r.queued_to_outbox ? " · queued to outbox" : ""}`;
+  const c = r.comparison, a = r.agent;
+  const rows = FIELDS.map(f => {
+    const d = c.diffs.find(x=>x.field===f);
+    return `<tr><td>${f}</td><td>${a.form[f]||""}</td><td class="${d?'bad':'ok'}">${d? 'differs (legacy: '+(d.legacy||'∅')+')' : (f==='notes'?'not scored':'match')}</td></tr>`;
+  }).join("");
+  $("#result").innerHTML = `<div><b class="${c.exact?'ok':'bad'}">${c.field_match_pct}% fields match</b> · agent ${a.latency_ms} ms · $${a.cost_usd} · extractor: ${a.mode}
+    ${a.issues.length ? `<div class="warn">Validation: ${a.issues.join(", ")}</div>`:""}</div>
+    <table><thead><tr><th>Field</th><th>Agent value</th><th>Vs legacy</th></tr></thead><tbody>${rows}</tbody></table>`;
+}
+
+async function refresh(){
+  const s = await api("/api/status"); const r = s.readiness;
+  document.querySelectorAll("[data-mode]").forEach(b=>b.classList.toggle("on", b.dataset.mode===s.mode));
+  const ch=$("#chaos"); ch.classList.toggle("on", s.legacy_down); ch.textContent = s.legacy_down ? "Chaos: legacy DOWN" : "Chaos: legacy up";
+  const m = [["Shadow runs", r.runs],["Exact match rate", r.exact_match_rate+"%"],["Avg field match", r.avg_field_match_pct+"%"],
+    ["p95 legacy", r.p95_legacy_ms+" ms"],["p95 agent", r.p95_agent_ms+" ms"],["Agent cost", "$"+r.total_agent_cost],
+    ["Legacy errors", r.legacy_errors],["Outbox pending", r.outbox_pending]];
+  $("#metrics").innerHTML = m.map(([k,v])=>`<div class="m"><small>${k}</small><b>${v}</b></div>`).join("");
+  const g=$("#gate"); g.className = "gate " + (r.ready?"yes":"no");
+  g.textContent = r.ready ? `Cutover gate PASSED: ${r.exact_match_rate}% exact match over ${r.runs} runs (threshold ${r.threshold}%). Canary and Live are unlocked.`
+                          : `Cutover gate locked: ${r.reasons.join("; ")}. Canary and Live stay disabled until the agent earns it.`;
+  $("#runs").innerHTML = s.recent.map(x=>`<tr><td>${x.route}</td><td class="${x.legacy_status==='OK'?'ok':'bad'}">${x.legacy_status}</td><td>${x.legacy_ms}</td><td>${x.agent_ms}</td>
+    <td class="${x.exact?'ok':'bad'}">${x.field_match_pct}%</td><td>${x.diffs.map(d=>d.field).join(", ")||"none"}</td><td><code>${x.correlation_id.slice(0,8)}</code></td></tr>`).join("");
+}
+
+$("#submit").onclick = async () => { try { showResult(await submitOne($("#note").value, staffForm())); } catch(e){ toast(e.message); } refresh(); };
+$("#replay").onclick = async () => {
+  $("#replay").disabled = true;
+  for (const s of samples){ try { showResult(await submitOne(s.note, s.staff_form)); } catch(e){ toast(e.message); } await refresh(); }
+  $("#replay").disabled = false;
+};
+document.querySelectorAll("[data-mode]").forEach(b => b.onclick = async () => { try { await api("/api/mode", {mode:b.dataset.mode}); } catch(e){ toast(e.message); } refresh(); });
+$("#chaos").onclick = async () => { const s=await api("/api/status"); await api("/api/chaos", {down: !s.legacy_down}); refresh(); };
+$("#reset").onclick = async () => { await api("/api/reset", {}); $("#result").innerHTML=""; $("#served").textContent=""; refresh(); };
+$("#sample").onchange = e => loadSample(+e.target.value);
+
+(async () => {
+  samples = await api("/api/samples");
+  $("#sample").innerHTML = samples.map((s,i)=>`<option value="${i}">${s.id}: ${s.staff_form.first_name} ${s.staff_form.last_name}</option>`).join("");
+  loadSample(0); refresh();
+})();
+</script>
+</body>
+</html>
